@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Suite Pro</title>
+    <link rel="icon" type="image/avif" href="assets/logo-medical.avif">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            background-color: #f0f8ff;
+        }
+        .welcome-section {
+            padding: 80px 0;
+            text-align: center;
+        }
+        .features-section {
+            padding: 60px 0;
+            background-color: white;
+        }
+        .dashboard-card {
+            transition: transform 0.3s;
+            height: 100%;
+            min-height: 200px;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+        }
+        .navbar-brand img {
+            height: 40px;
+        }
+    </style>
+</head>
+<body class="public-page">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="assets/logo-medical.avif" alt="Logo">
+                Medical Suite Pro
+            </a>
+            <div class="d-flex" id="nav-buttons">
+                <!-- Boutons de connexion/déconnexion seront ajoutés dynamiquement -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- Welcome Section -->
+    <section class="welcome-section">
+        <div class="container">
+            <h1 class="display-4 mb-4">Bienvenue sur Medical Suite Pro</h1>
+            <p class="lead mb-5">La solution complète pour la gestion de votre établissement médical</p>
+            <div id="main-action-button">
+                <!-- Bouton d'action principal sera ajouté dynamiquement -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="text-center mb-5">Nos fonctionnalités</h2>
+            <div class="row g-4">
+                <!-- Patients Card -->
+                <div class="col-md-4">
+                    <div class="card dashboard-card shadow">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">
+                                <i class="bi bi-person-lines-fill"></i> Gestion des patients
+                            </h5>
+                            <p class="card-text">Gérez facilement vos dossiers patients avec notre interface intuitive</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rendez-vous Card -->
+                <div class="col-md-4">
+                    <div class="card dashboard-card shadow">
+                        <div class="card-body">
+                            <h5 class="card-title text-success">
+                                <i class="bi bi-calendar-event"></i> Planification
+                            </h5>
+                            <p class="card-text">Organisez vos rendez-vous et optimisez votre emploi du temps</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dossiers Médicaux Card -->
+                <div class="col-md-4">
+                    <div class="card dashboard-card shadow">
+                        <div class="card-body">
+                            <h5 class="card-title text-danger">
+                                <i class="bi bi-file-medical"></i> Dossiers médicaux
+                            </h5>
+                            <p class="card-text">Accédez et gérez les dossiers médicaux en toute sécurité</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <p>&copy; 2025 Medical Suite Pro. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script src="scripts/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const user = getCurrentUser();
+            const navButtons = document.getElementById('nav-buttons');
+            const mainActionButton = document.getElementById('main-action-button');
+            
+            if (user) {
+                // Utilisateur connecté - Afficher le nom et le bouton de déconnexion
+                navButtons.innerHTML = `
+                    <span class="nav-link text-white me-3">
+                        <i class="bi bi-person-circle"></i> Bonjour, ${user.name || user.email}
+                    </span>
+                    <button class="btn btn-outline-light logout-btn">
+                        <i class="bi bi-box-arrow-right"></i> Déconnexion
+                    </button>
+                `;
+                
+                // Bouton d'action basé sur le rôle
+                let dashboardUrl = 'index.html';
+                switch(user.role) {
+                    case 'patient':
+                        dashboardUrl = 'patientbord.html';
+                        break;
+                    case 'secretaire':
+                        dashboardUrl = 'secretary-dashboard.html';
+                        break;
+                    case 'medecin':
+                        dashboardUrl = 'doctor-dashboard.html';
+                        break;
+                }
+                
+                mainActionButton.innerHTML = `
+                    <a href="${dashboardUrl}" class="btn btn-primary btn-lg">
+                        Accéder à mon tableau de bord
+                    </a>
+                `;
+                
+                // Ajouter l'événement de déconnexion
+                document.querySelector('.logout-btn').addEventListener('click', function() {
+                    logout();
+                });
+                
+                // Rediriger automatiquement vers le tableau de bord approprié
+                // Décommentez la ligne suivante si vous voulez une redirection automatique
+                // window.location.href = dashboardUrl;
+            } else {
+                // Utilisateur non connecté - Afficher les boutons de connexion et d'inscription
+                navButtons.innerHTML = `
+                    <a href="auth.html" class="btn btn-outline-light me-2">Connexion</a>
+                    <a href="register.html" class="btn btn-light">Inscription</a>
+                `;
+                
+                mainActionButton.innerHTML = `
+                    <a href="auth.html" class="btn btn-primary btn-lg">Commencer maintenant</a>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Réserver un créneau</title>
+</head>
+<body>
+    <h2>Réserver un créneau</h2>
+    <input type="text" id="patientName" placeholder="Votre nom"><br><br>
+    <ul id="slotsList"></ul>
+
+    <script>
+        async function loadSlots() {
+            const res = await fetch("http://localhost:5000/available_slots");
+            const slots = await res.json();
+            const ul = document.getElementById("slotsList");
+
+            slots.forEach(slot => {
+                const li = document.createElement("li");
+                li.textContent = slot.datetime;
+                const btn = document.createElement("button");
+                btn.textContent = "Réserver";
+                btn.onclick = async () => {
+                    const name = document.getElementById("patientName").value;
+                    const res = await fetch("http://localhost:5000/book_slot", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ slot_id: slot._id, patient_name: name })
+                    });
+                    const result = await res.json();
+                    alert(result.message || result.error);
+                    loadSlots();  // refresh
+                };
+                li.appendChild(btn);
+                ul.appendChild(li);
+            });
+        }
+
+        loadSlots();
+    </script>
+</body>
+</html>

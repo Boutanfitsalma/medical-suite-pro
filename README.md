@@ -23,7 +23,7 @@
 - [Vue d'ensemble](#-vue-densemble)
 - [Vidéo démo](#-vidéo-démo)
 - [Fonctionnalités](#-fonctionnalités)
-- [Architecture](#-architecture)
+- [Architecture](#-Architecture)
 - [Technologies utilisées](#-technologies-utilisées)
 - [Installation](#-installation)
 - [Structure du projet](#-structure-du-projet)

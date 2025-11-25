@@ -60,6 +60,10 @@ Medical Suite Pro digitalise l'ensemble du processus avec :
 https://github.com/user-attachments/assets/d53870f6-79a6-43ed-80cb-8fac71819e36
 
 
+
+https://github.com/user-attachments/assets/c30f3046-ce92-4750-b1d7-8cb45cfcbdef
+
+
 ---
 
 ## ✨ Fonctionnalités
